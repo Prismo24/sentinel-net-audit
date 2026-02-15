@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cyber-bg: #050a06;
+  --color-cyber-card: #0b140d;
+  --color-cyber-primary: #10b981;
+  --color-cyber-secondary: #064e3b;
+  --color-cyber-text: #ecfdf5;
+}
+
+@layer base {
+  body {
+    @apply transition-colors duration-300;
+    background-color: var(--color-cyber-bg);
+    color: var(--color-cyber-text);
+    margin: 0;
+  }
+  
+  .light {
+    --color-cyber-bg: #f0fdf4;
+    --color-cyber-card: #ffffff;
+    --color-cyber-primary: #059669;
+    --color-cyber-secondary: #d1fae5;
+    --color-cyber-text: #064e3b;
+  }
+}
+
+/* Customización de Controles con sintaxis v4 (importante al final) */
+.react-flow__controls {
+  @apply bg-emerald-950/50! backdrop-blur-md! border! border-emerald-500/20! rounded-xl! overflow-hidden!;
+}
+
+.react-flow__controls-button {
+  @apply border-b! border-emerald-500/10! bg-transparent! hover:bg-emerald-500/20! transition-colors!;
+  fill: #10b981 !important;
+}
+
+.light .react-flow__controls-button {
+  fill: #064e3b !important;
+}
+
+.react-flow__attribution {
+  @apply bg-transparent! text-[8px]! opacity-20!;
+}
