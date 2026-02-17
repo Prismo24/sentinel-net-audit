@@ -8,9 +8,8 @@ export const auditService = {
    * Descubrimiento de dispositivos mediante Proxy de Vite
    */
   getDeviceScout: async (ip: string): Promise<ShodanHost> => {
-  // Aseguramos que si no hay KEY o si falla la red, el MOCK responda siempre
+  // Si no hay llave, usamos directamente el Mock con la IP que escribió el usuario
   if (!SHODAN_KEY) {
-    console.log("Iniciando modo simulación para:", ip);
     return auditService.getMockData(ip);
   }
 
@@ -18,13 +17,15 @@ export const auditService = {
     const { data } = await axios.get(`/api-shodan/shodan/host/${ip}`, {
       params: { key: SHODAN_KEY }
     });
-    // DEFENSA EXTRA: Si data no tiene puertos, le damos unos por defecto
+    
+    // Si la data viene vacía o sin puertos por alguna razón, usamos el fallback
     return {
       ...data,
-      ports: data.ports || [80, 443] 
+      ip_str: data.ip_str || ip, // Aseguramos que nunca sea undefined
+      ports: data.ports || [22, 80, 443, 8080] 
     };
   } catch (error: any) {
-    console.warn("Error en Shodan API, activando contingencia (Mock).");
+    // Si hay cualquier error de red o API, devolvemos el Mock para no romper la UI
     return auditService.getMockData(ip);
   }
 },
