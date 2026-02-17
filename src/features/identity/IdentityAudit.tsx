@@ -2,11 +2,17 @@ import  { useState } from 'react';
 import { Fingerprint, ShieldAlert } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { type Breach } from '../../types';
+import { useAppStore } from '../../store/useAppStore';
 
 export const IdentityAudit = () => {
   const [email, setEmail] = useState('');
   const [results, setResults] = useState<Partial<Breach>[] | null>(null);
   const [loading, setLoading] = useState(false);
+  const { isDarkMode } = useAppStore();
+
+  const getInputTextColor = () => {
+    return isDarkMode ? 'text-[#00ff41]' : 'text-emerald-950';
+  };
 
   const handleAudit = async () => {
     if (!email) return;
@@ -34,12 +40,17 @@ export const IdentityAudit = () => {
         </h2>
         
         <div className="flex flex-col md:flex-row gap-4">
-          <input 
+         <input 
             type="email" 
             placeholder="Introduce correo institucional..."
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="flex-1 bg-emerald-950/20 border border-emerald-500/10 rounded-2xl px-6 py-4 text-emerald-100 focus:border-emerald-500/40 outline-none transition-all font-mono"
+            // APLICAMOS LA FUNCIÓN Y EL GLOW NEÓN
+            className={`flex-1 bg-emerald-950/20 dark:bg-black/60 border border-emerald-500/10 dark:border-emerald-500/30 rounded-2xl py-4 pl-12 pr-4 transition-all font-mono text-lg font-black outline-none
+              ${getInputTextColor()}
+              dark:drop-shadow-[0_0_8px_rgba(0,255,65,0.4)]
+              focus:border-emerald-500/50
+            `}
           />
           <button 
             onClick={handleAudit}

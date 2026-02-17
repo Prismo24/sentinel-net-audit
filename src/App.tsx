@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppStore } from './store/useAppStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldCheck, Globe, Fingerprint, Database, Sun, Moon, ShieldAlert, ChevronRight } from 'lucide-react';
@@ -18,6 +18,15 @@ function App() {
     { id: 'traffic', icon: Database, color: 'text-emerald-600', label: 'Traffic Monitor' },
     { id: 'cve', icon: ShieldAlert, color: 'text-emerald-600', label: 'Threat Intel' },
   ];
+
+// En tu App.tsx
+useEffect(() => {
+  if (isDarkMode) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+}, [isDarkMode]); // <--- Agregamos isDarkMode aquí
 
   return (
     <div className="min-h-screen bg-cyber-bg font-mono transition-colors duration-300 flex">
@@ -104,7 +113,7 @@ function App() {
               Sentinel <span className="opacity-30 font-light text-cyber-text">Audit_v4</span>
             </h1>
             <p className="text-[10px] text-emerald-700 font-bold uppercase tracking-[0.3em] mt-1">
-              Saint Leo University // Cyber-Ops Division
+              Brgo Cyber-Ops Division
             </p>
           </div>
           

@@ -5,47 +5,51 @@ const SHODAN_KEY = import.meta.env.VITE_SHODAN_API_KEY;
 
 export const auditService = {
   /**
-   * Descubrimiento de dispositivos y puertos mediante Shodan
-   * @param ip Dirección IP a auditar
+   * Descubrimiento de dispositivos mediante Proxy de Vite
    */
   getDeviceScout: async (ip: string): Promise<ShodanHost> => {
-  if (!SHODAN_KEY) {
-    return auditService.getMockData(ip);
-  }
+    if (!SHODAN_KEY) return auditService.getMockData(ip);
 
-  try {
-    const { data } = await axios.get(`https://api.shodan.io/shodan/host/${ip}`, {
-      params: { key: SHODAN_KEY }
-    });
-    return data;
-  } catch (error: any) {
-    // Si Shodan nos da 403 o 401, activamos el modo de respaldo profesional
-    if (error.response?.status === 403 || error.response?.status === 401) {
-      console.warn("Acceso API restringido (403). Cargando modo de diagnóstico seguro...");
-      return auditService.getMockData(ip);
+    try {
+      // USAMOS EL PROXY: /api-shodan mapea a https://api.shodan.io
+      const { data } = await axios.get(`/api-shodan/shodan/host/${ip}`, {
+        params: { key: SHODAN_KEY }
+      });
+      return data;
+    } catch (error: any) {
+      if (error.response?.status === 403 || error.response?.status === 401) {
+        console.warn("Acceso Shodan restringido. Usando modo simulación.");
+        return auditService.getMockData(ip);
+      }
+      throw error;
     }
-    console.error("Error en Shodan API:", error);
-    throw error;
-  }
-},
-  /**
-   * Búsqueda de Vulnerabilidades NIST
-   */
-  getCVEData: async (keyword: string): Promise<CVE[]> => {
-    const { data } = await axios.get(`https://services.nvd.nist.gov/rest/json/cves/2.0`, {
-      params: { keywordSearch: keyword }
-    });
-    return data.vulnerabilities;
   },
 
-  // Método auxiliar para no romper la UI si no hay internet o Key
+  /**
+   * Búsqueda de Vulnerabilidades NIST mediante Proxy
+   */
+  getCVEData: async (keyword: string): Promise<CVE[]> => {
+  try {
+    const { data } = await axios.get(`/api-nist/rest/json/cves/2.0`, {
+      params: { 
+        keywordSearch: keyword,
+        resultsPerPage: 10, // Limitamos a 10 resultados desde el servidor
+        startIndex: 0       // Empezamos desde el primero
+      }
+    });
+    return data.vulnerabilities || [];
+  } catch (error) {
+    console.error("Error consultando NIST CVE:", error);
+    return [];
+  }
+},
   getMockData: (ip: string): Promise<ShodanHost> => {
     return new Promise((resolve) => setTimeout(() => resolve({
       ip_str: ip,
-      organization: "Simulated Network",
-      os: "Debian 12",
-      ports: [22, 80, 443],
-      isp: "Localhost Audit",
+      organization: "Simulated Network Audit",
+      os: "Detected: Linux Kernel",
+      ports: [22, 80, 443, 8080],
+      isp: "Local Diagnostic Protocol",
       country_name: "Ecuador",
       data: []
     }), 1000));

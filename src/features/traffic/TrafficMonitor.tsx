@@ -2,11 +2,17 @@ import  { useState } from 'react';
 import { Database, ShieldAlert, Activity, AlertTriangle, Search } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 import { motion } from 'framer-motion';
+import { useAppStore } from '../../store/useAppStore';
 
 export const TrafficMonitor = () => {
   const [ip, setIp] = useState('');
   const [report, setReport] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const { isDarkMode } = useAppStore();
+
+  const getInputTextColor = () => {
+    return isDarkMode ? 'text-[#00ff41]' : 'text-emerald-950';
+  };
 
   const handleCheck = () => {
     setLoading(true);
@@ -38,7 +44,12 @@ export const TrafficMonitor = () => {
             placeholder="Analizar IP sospechosa..."
             value={ip}
             onChange={(e) => setIp(e.target.value)}
-            className="flex-1 bg-emerald-950/20 border border-emerald-500/10 rounded-2xl px-6 py-4 text-emerald-100 focus:border-emerald-500/40 outline-none transition-all font-mono"
+            // APLICAMOS LA FUNCIÓN Y EL GLOW NEÓN
+            className={`flex-1 bg-emerald-950/20 dark:bg-black/60 border border-emerald-500/10 dark:border-emerald-500/30 rounded-2xl py-4 pl-12 pr-6 transition-all font-mono text-lg font-black outline-none
+              ${getInputTextColor()}
+              dark:drop-shadow-[0_0_8px_rgba(0,255,65,0.4)]
+              focus:border-emerald-500/50
+            `}
           />
           <button onClick={handleCheck} className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg flex gap-2 items-center">
             {loading ? <Activity className="animate-spin" size={20} /> : <Search size={20} />}

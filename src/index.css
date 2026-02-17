@@ -1,44 +1,47 @@
 @import "tailwindcss";
 
 @theme {
-  --color-cyber-bg: #050a06;
-  --color-cyber-card: #0b140d;
+  /* Variables de colores dinámicas */
+  --color-cyber-bg: var(--bg-current);
+  --color-cyber-card: var(--card-current);
   --color-cyber-primary: #10b981;
-  --color-cyber-secondary: #064e3b;
-  --color-cyber-text: #ecfdf5;
+  --color-cyber-text: var(--text-current);
+  
+  /* Mantén tus fuentes y animaciones */
+  --font-mono: "JetBrains Mono", monospace;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Protocolo de Modo Claro/Oscuro mediante variables nativas */
+:root {
+  --bg-current: #f8fafc;
+  --card-current: #ffffff;
+  --text-current: #020617;
+}
+
+/* Esta es la clase que tu Store de Zustand activa/desactiva */
+.dark {
+  --bg-current: #020617;
+  --card-current: #0f172a;
+  --text-current: #ecfdf5;
 }
 
 @layer base {
   body {
-    @apply transition-colors duration-300;
+    @apply transition-colors duration-300 min-h-screen font-mono;
     background-color: var(--color-cyber-bg);
     color: var(--color-cyber-text);
-    margin: 0;
-  }
-  
-  .light {
-    --color-cyber-bg: #f0fdf4;
-    --color-cyber-card: #ffffff;
-    --color-cyber-primary: #059669;
-    --color-cyber-secondary: #d1fae5;
-    --color-cyber-text: #064e3b;
   }
 }
 
-/* Customización de Controles con sintaxis v4 (importante al final) */
+/* Personalización de React Flow (Sin cambios, está perfecta) */
 .react-flow__controls {
   @apply bg-emerald-950/50! backdrop-blur-md! border! border-emerald-500/20! rounded-xl! overflow-hidden!;
 }
-
 .react-flow__controls-button {
   @apply border-b! border-emerald-500/10! bg-transparent! hover:bg-emerald-500/20! transition-colors!;
   fill: #10b981 !important;
 }
-
-.light .react-flow__controls-button {
-  fill: #064e3b !important;
-}
-
-.react-flow__attribution {
-  @apply bg-transparent! text-[8px]! opacity-20!;
+.dark .react-flow__controls-button {
+  fill: #34d399 !important;
 }
