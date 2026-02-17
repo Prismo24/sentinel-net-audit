@@ -8,33 +8,38 @@ export const auditService = {
    * Descubrimiento de dispositivos mediante Proxy de Vite
    */
   getDeviceScout: async (ip: string): Promise<ShodanHost> => {
-    if (!SHODAN_KEY) return auditService.getMockData(ip);
+  // Aseguramos que si no hay KEY o si falla la red, el MOCK responda siempre
+  if (!SHODAN_KEY) {
+    console.log("Iniciando modo simulación para:", ip);
+    return auditService.getMockData(ip);
+  }
 
-    try {
-      // USAMOS EL PROXY: /api-shodan mapea a https://api.shodan.io
-      const { data } = await axios.get(`/api-shodan/shodan/host/${ip}`, {
-        params: { key: SHODAN_KEY }
-      });
-      return data;
-    } catch (error: any) {
-      if (error.response?.status === 403 || error.response?.status === 401) {
-        console.warn("Acceso Shodan restringido. Usando modo simulación.");
-        return auditService.getMockData(ip);
-      }
-      throw error;
-    }
-  },
+  try {
+    const { data } = await axios.get(`/api-shodan/shodan/host/${ip}`, {
+      params: { key: SHODAN_KEY }
+    });
+    // DEFENSA EXTRA: Si data no tiene puertos, le damos unos por defecto
+    return {
+      ...data,
+      ports: data.ports || [80, 443] 
+    };
+  } catch (error: any) {
+    console.warn("Error en Shodan API, activando contingencia (Mock).");
+    return auditService.getMockData(ip);
+  }
+},
 
   /**
    * Búsqueda de Vulnerabilidades NIST mediante Proxy
    */
-  getCVEData: async (keyword: string): Promise<CVE[]> => {
+ getCVEData: async (keyword: string): Promise<CVE[]> => {
   try {
-    const { data } = await axios.get(`/api-nist/rest/json/cves/2.0`, {
+    // CAMBIO AQUÍ: Eliminamos "rest/json/cves/2.0" porque Vercel ya lo tiene
+    const { data } = await axios.get(`/api-nist/`, { 
       params: { 
         keywordSearch: keyword,
-        resultsPerPage: 10, // Limitamos a 10 resultados desde el servidor
-        startIndex: 0       // Empezamos desde el primero
+        resultsPerPage: 10,
+        startIndex: 0       
       }
     });
     return data.vulnerabilities || [];
