@@ -1,47 +1,48 @@
 🛡️ Sentinel Net-Audit v4
-Sentinel Net-Audit es una plataforma de diagnóstico de ciberseguridad avanzada diseñada para la auditoría de activos digitales en tiempo real. Este proyecto integra múltiples fuentes de inteligencia de amenazas para proporcionar una visión holística de la superficie de ataque de una organización.
+OSINT & Threat Intelligence Landscape
 
-🚀 Características Principales
-Device Scout (Network Topology): Visualización interactiva de nodos mediante React Flow, permitiendo el mapeo dinámico de puertos y servicios detectados vía Shodan.
+Sentinel Net-Audit es una plataforma de diagnóstico de ciberseguridad avanzada diseñada para la recopilación pasiva de inteligencia y la auditoría de activos digitales. Desarrollada bajo los estándares de la Cyber-Ops Division de Saint Leo University, la herramienta centraliza vectores de ataque en una interfaz de alto contraste optimizada para auditores.
 
-Identity Audit: Módulo de verificación de brechas de seguridad basado en el protocolo Identity_Breach_Protocol para auditar correos institucionales.
+🚀 Módulos del Ecosistema
+📡 Threat Intelligence (Live Data)
+Fuente: Conexión directa vía proxy a la API de la NVD (National Vulnerability Database) del NIST.
 
-Traffic Monitor: Análisis de reputación de IP con indicadores visuales de confianza de abuso y gráficos de historial de ataques realizados con Recharts.
+Funcionalidad: Auditoría en tiempo real de CVEs (Common Vulnerabilities and Exposures) filtrando por tecnologías específicas para identificar debilidades críticas actuales.
 
-Threat Intelligence: Feed en tiempo real conectado a la base de datos nacional de vulnerabilidades (NIST CVE).
+🌐 Network Scout & IP Reputation (Simulated Landscape)
+Protocolo: Estos módulos operan bajo un entorno de Simulación (Mock Data).
 
-🛠️ Stack Tecnológico
-Frontend: React 19 + TypeScript (Arquitectura de tipado estricto para integridad de datos).
+Objetivo: Demostrar la interconectividad eficiente del dashboard. Simulan el procesamiento de datos provenientes de motores como Shodan y AbuseIPDB, permitiendo visualizar topologías de red y puntajes de confianza de abuso sin incurrir en costos de API o bloqueos de firewall durante demostraciones.
 
-Estilos: Tailwind CSS v4 (Sintaxis canónica optimizada para alto rendimiento).
+🔑 Identity Audit (Breach Protocol)
+Enfoque: Simulación de auditoría de correos institucionales. Muestra cómo se estructuraría la respuesta ante brechas de seguridad masivas, facilitando el diagnóstico preventivo de la integridad de credenciales.
 
-Estado Global: Zustand (Gestión eficiente de estados de auditoría).
+🛠️ Stack Tecnológico (Vanguardia 2026)
+Core: React 19 + TypeScript (Tipado estricto para integridad de datos).
 
-Animaciones: Framer Motion (Transiciones fluidas para una experiencia de usuario de nivel profesional).
+Estilos: Tailwind CSS v4 (Uso de @theme y variables nativas para rendimiento extremo).
 
-Visualización: React Flow & Recharts.
+Visualización: * React Flow: Mapeo dinámico de nodos y topologías.
 
-🏛️ Enfoque Académico e Institucional
-Este proyecto fue desarrollado bajo los principios de innovación institucional de Saint Leo University, aplicando:
+Recharts: Análisis estadístico de reputación e historial de ataques.
 
-Enfoque Analítico: Diagnóstico preciso de amenazas basado en datos estructurados.
+UX: Framer Motion para micro-interacciones de nivel profesional.
 
-Resolución de Problemas Complejos: Implementación de una interfaz responsiva y modular que escala según las necesidades de Cyber-Ops.
+🏛️ Enfoque en Innovación Institucional
+Este proyecto aplica los pilares académicos de Saint Leo University:
 
-Tecnología Avanzada: Uso de las versiones más recientes de frameworks de desarrollo web (2026) para garantizar la interconectividad eficiente.
+Diagnóstico Analítico: Transformación de datos brutos en inteligencia accionable.
 
-📦 Instalación y Uso
-Clonar el repositorio:
+Interconectividad Eficiente: Sincronización de estado global mediante Zustand para una experiencia fluida entre módulos.
 
-Bash
-git clone https://github.com/tu-usuario/sentinel-net-audit.git
-Instalar dependencias:
+Optimización de Procesos: Reducción de la fatiga visual mediante una paleta de colores neón fosforescente (#00ff41) diseñada para condiciones de baja luz.
 
-Bash
-npm install
-Ejecutar en modo desarrollo:
+📦 Despliegue en Vercel
+El proyecto está optimizado para despliegue continuo.
 
-Bash
-npm run dev
+Vite Proxy: Configurado para manejar las peticiones al NIST.
+
+Responsive Design: Adaptado para monitores de alta resolución (i9/4K) y dispositivos móviles.
+
 🛡️ Sobre el Autor
-Brandon Estudiante de Ingeniería en Software - Saint Leo University Enfoque en Ciberseguridad, Arquitectura de Sistemas y Optimización de Procesos.
+Brandon Estudiante de Ingeniería en Software - Saint Leo University Especialización en Ciberseguridad, Arquitectura de Sistemas y Desarrollo Full-Stack.

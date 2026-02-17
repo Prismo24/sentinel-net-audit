@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api-nist/(.*)",
+      "destination": "https://services.nvd.nist.gov/rest/json/cves/2.0/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
